@@ -31,7 +31,7 @@ const StyledWideButton = styled.button`
 export default function KeyButton(props: {letter: string}) {
     return (
         // if the letter of the key is ENTER or BACKSPACE
-        props.letter == "ENTER" || props.letter == "BACKSPACE" ?
+        props.letter === "ENTER" || props.letter === "BACKSPACE" ?
             // display button as a wide button
             <StyledWideButton> {props.letter} </StyledWideButton>:
             // else display as regular button
