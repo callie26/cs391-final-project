@@ -41,6 +41,7 @@ export default function Keyboard() {
                     <KeyButton letter={letter}/>
                 )}
             </div>
+
         </StyledKeyboardContainer>
     );
 }

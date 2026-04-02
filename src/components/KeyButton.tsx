@@ -14,6 +14,11 @@ const StyledButton = styled.button`
     border-radius: 4px;
     border: none;
     font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #7a7878;
+    }
 `;
 
 // used to style each key button of the keyboard when ENTER key or BACKSPACE
@@ -26,6 +31,11 @@ const StyledWideButton = styled.button`
     border-radius: 4px;
     border: none;
     font-weight: bold;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: #7a7878;
+    }
 `;
 
 export default function KeyButton(props: {letter: string}) {
