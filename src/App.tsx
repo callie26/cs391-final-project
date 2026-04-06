@@ -4,6 +4,7 @@ import { useState } from "react";
 import Grid from './components/Grid'
 import Keyboard from "./components/Keyboard.tsx";
 import GameResult from "./components/GameResult";
+import NavBar from "./components/Nav";
 
 const MainDiv = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ function App() {
     return (
         <MainDiv>
             <h1>Wordle</h1>
+            <NavBar/>
             <Grid/>
             <Keyboard/>
             { gameOver && gameResult == "won" && <GameResult result="won" word={word} Retry={Retry}/> }
