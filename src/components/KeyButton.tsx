@@ -5,6 +5,7 @@
 import styled from "styled-components";
 
 // used to style each key button of the keyboard if not ENTER key or BACKSPACE
+// https://stackoverflow.com/questions/68683137/how-to-style-multiple-variations-of-a-button-with-styled-components
 const StyledButton = styled.button`
     background-color: #5c5c5c;
     color: white;
