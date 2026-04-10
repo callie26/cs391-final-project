@@ -76,8 +76,10 @@ function App() {
         return guessColors;
     }
 
+    // guessColors = getGuessColors(guess, answer)
+
     // check whether to update the keyboard key colors
-    function updateKeyboardColors(guessColors:GuessColorsProps[]):GuessColorsProps[]{
+    function updateKeyboardColors(guessColors:GuessColorsProps[]){
         // get current keyboard colors and update or add colors if needed
         const updatedKeyboardColors:GuessColorsProps[] = [...keyboardColors];
 
@@ -106,7 +108,7 @@ function App() {
         setKeyboardColors(updatedKeyboardColors)
     }
 
-
+    // const keyboardColors = updateKeyboardColors(guessColors)
 
 
 
@@ -115,7 +117,7 @@ function App() {
             <h1>Wordle</h1>
             <NavBar/>
             <Grid/>
-            <Keyboard/>
+            <Keyboard colors={keyboardColors}/>
             { gameOver && gameResult == "won" && <GameResult result="won" word={word} Retry={Retry}/> }
             { gameOver && gameResult == "lost" && <GameResult result="lost" word={word} Retry={Retry}/> }
         </MainDiv>
