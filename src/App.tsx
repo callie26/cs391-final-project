@@ -61,13 +61,9 @@ function App() {
     // fetch a random 5-letter word from the API
     useEffect(()=>{
         async function fetchRandomWord(): Promise<void> {
-            // const rawRandomWord= await fetch("https://random-words-api.kushcreates.com/api?language=en&length=5&type=uppercase&words=1");
-            // const randomWord = await rawRandomWord.json();
-            // setAnswer(randomWord[0].word);
-
-            const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5");
+            const rawRandomWord= await fetch("https://random-words-api.kushcreates.com/api?language=en&length=5&type=uppercase&words=1");
             const randomWord = await rawRandomWord.json();
-            setAnswer(randomWord[0].toUpperCase());
+            setAnswer(randomWord[0].word);
         }
         fetchRandomWord()
             .then(()=>console.log("Random word successfully fetched"))
@@ -132,14 +128,14 @@ function App() {
     }
 
     // Tiffany Yam
-    // Call api to check if guessed word exists
-    async function isRealWord(word: string) {
+    // Check if word exists
+    function isRealWord(word: string) {
         return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
             .then(res => res.ok)
-            .catch(() => false)
+            .catch(() => false);
     }
 
-    // samantha pang 
+    // samantha pang
     // function to handle key presses from both real keyboard and on-screen keyboard
     const handleKeyPress = useCallback((key: string) => {
         if (gameOver) return;
@@ -189,6 +185,7 @@ function App() {
                         return;
                     }
 
+                    setGridColors((previousColors) => [...previousColors, guessColors])
                     setCurrentRow((previous) => previous + 1);
                     setCurrentCol(0);
                     return;
