@@ -31,6 +31,7 @@ function App() {
     // states for keyboard color change
     const [answer, setAnswer] = useState("");
     const [keyboardColors, setKeyboardColors] = useState<GuessColorsProps[]>([]);
+    const [gridColors, setGridColors] = useState<GuessColorsProps[][]>([]);
     const [guesses, setGuesses] = useState<string[][]>(
         Array.from({ length: rows }, () => Array(columns).fill(""))
     );
@@ -153,6 +154,7 @@ function App() {
                 return;
             }
 
+            setGridColors((previousColors) => [...previousColors, guessColors])
             setCurrentRow((previous) => previous + 1);
             setCurrentCol(0);
             return;
@@ -198,7 +200,7 @@ function App() {
         <MainDiv>
             <h1>Wordle</h1>
             <NavBar/>
-                        <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow}/>
+                        <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors}/>
                         <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress}/>
             { gameOver && gameResult == "won" && <GameResult result="won" word={word} Retry={Retry}/> }
             { gameOver && gameResult == "lost" && <GameResult result="lost" word={word} Retry={Retry}/> }
