@@ -10,7 +10,8 @@ const StyledButton = styled.button<{color:string | undefined}>`
     background-color: ${(props)=> {
         if (props.color === "green") return "#A8DCAB"
         else if (props.color === "yellow") return "#FFEE8C"
-        else return "#5C5C5C"
+        else if (props.color === "gray") return "#5C5C5C"
+        else return "#b1afaf"
     }};
     color: white;
     width: 45px;
@@ -31,7 +32,8 @@ const StyledWideButton = styled.button<{color:string | undefined}>`
     background-color: ${(props)=> {
         if (props.color === "green") return "#A8DCAB"
         else if (props.color === "yellow") return "#FFEE8C"
-        else return "#5C5C5C"
+        else if (props.color === "gray") return "#5C5C5C"
+        else return "#b1afaf"
     }};
     color: white;
     width: 100px;
