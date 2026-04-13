@@ -61,32 +61,39 @@ function App() {
             .catch((e: Error)=>console.log("There was an error fetching the random word: " + e));
     }, []);
 
+    console.log(word);
+
     // check a guess against the answer (need to put this in when enter is hit i think)
     function getGuessColors(guess:string, answer:string):GuessColorsProps[]{
-        const guessColors:GuessColorsProps[] = [];
+        console.log("ANSWER:", answer);
+        console.log("GUESS:", guess);
+
+        const guessColors:GuessColorsProps[] = new Array(guess.length);
         // make string into array for easy manipulation
         // https://www.geeksforgeeks.org/javascript/string-to-array-in-javascript/
         const remainingLetters = answer.split("");
 
         // check for letters in correct spot
-        for (let i = 0; i < answer.length; i++) {
+        for (let i = 0; i < guess.length; i++) {
             if (guess[i] === answer[i]) {
                 guessColors[i] = {letter: guess[i], color: "green"};
                 remainingLetters[i] = "*"
             }
+        }
 
+        console.log("rm" + remainingLetters);
             // check for letters not in correct spot but in word
-            // https://www.w3schools.com/jsref/jsref_includes_array.asp
-            else if (remainingLetters.includes(guess[i])) {
+            // use indexOf to check if there is an index with that letter
+            // https://www.w3schools.com/jsref/jsref_indexof_array.asp
+        for (let i = 0; i < guess.length; i++) {
+            const indexOfCorrectSpot = remainingLetters.indexOf(guess[i]);
+            if (indexOfCorrectSpot !== -1) {
                 guessColors[i] = {letter: guess[i], color: "yellow"};
-                // https://www.w3schools.com/jsref/jsref_indexof_array.asp
-                const indexOfCorrectSpot = remainingLetters.indexOf(guess[i]);
                 remainingLetters[indexOfCorrectSpot] = "*"
             }
-            else {
-                guessColors[i] = {letter: guess[i], color: "gray"};
-            }
         }
+        console.log("rm" + remainingLetters);
+        console.log(guessColors);
 
         return guessColors;
     }
@@ -140,6 +147,7 @@ function App() {
 
             const guess = guesses[currentRow].join("");
             const guessColors = getGuessColors(guess, answer);
+            setGridColors((previousColors) => [...previousColors, getGuessColors(guess, answer)])
             updateKeyboardColors(guessColors);
 
             if (guess === answer) {
@@ -154,7 +162,6 @@ function App() {
                 return;
             }
 
-            setGridColors((previousColors) => [...previousColors, guessColors])
             setCurrentRow((previous) => previous + 1);
             setCurrentCol(0);
             return;
