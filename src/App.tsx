@@ -18,6 +18,13 @@ const MainDiv = styled.div`
   gap: 10px;
   padding: 8px 10px;
 `;
+
+const ErrorDiv = styled.div `
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
 function App() {
     const rows = 6;
     const columns = 5;
@@ -26,6 +33,8 @@ function App() {
     // Conditionals for GameResult component
     const [gameOver, setGameOver] = useState(false);
     const [gameResult, setGameResult] = useState("");
+    // Display message if word does not exist
+    const [doesNotExistMessage, setDoesNotExistMessage] = useState("");
 
     // Callie Liu
     // states for keyboard color change
@@ -118,7 +127,15 @@ function App() {
         });
     }
 
-    // samantha pang 
+    // Tiffany Yam
+    // Check if word exists
+    function isRealWord(word: string) {
+        return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+            .then(res => res.ok)
+            .catch(() => false);
+    }
+
+    // samantha pang
     // function to handle key presses from both real keyboard and on-screen keyboard
     const handleKeyPress = useCallback((key: string) => {
         if (gameOver) return;
@@ -139,25 +156,41 @@ function App() {
             if (currentCol < columns || !answer) return;
 
             const guess = guesses[currentRow].join("");
-            const guessColors = getGuessColors(guess, answer);
-            updateKeyboardColors(guessColors);
 
-            if (guess === answer) {
-                setGameOver(true);
-                setGameResult("won");
-                return;
-            }
+            // Check if word exists
+            isRealWord(guess)
+                // If word does not exist, show an error message
+                // Can change this later to make the row squares red
+                .then((exists) => {
+                    if (!exists) {
+                        setDoesNotExistMessage("Word does not exist");
+                        return;
+                    }
 
-            if (currentRow === rows - 1) {
-                setGameOver(true);
-                setGameResult("lost");
-                return;
-            }
+                    // If word exists
+                    setDoesNotExistMessage("");
 
-            setGridColors((previousColors) => [...previousColors, guessColors])
-            setCurrentRow((previous) => previous + 1);
-            setCurrentCol(0);
-            return;
+                    const guessColors = getGuessColors(guess, answer);
+                    updateKeyboardColors(guessColors);
+
+                    if (guess === answer) {
+                        setGameOver(true);
+                        setGameResult("won");
+                        return;
+                    }
+
+                    if (currentRow === rows - 1) {
+                        setGameOver(true);
+                        setGameResult("lost");
+                        return;
+                    }
+
+                    setGridColors((previousColors) => [...previousColors, guessColors])
+                    setCurrentRow((previous) => previous + 1);
+                    setCurrentCol(0);
+                    return;
+                })
+                .catch(() => console.log("Error checking word"));
         }
 
         // if a letter key is pressed, add the letter to the current guess
@@ -201,6 +234,9 @@ function App() {
             <NavBar/>
                         <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors}/>
                         <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress}/>
+            {/* If word does not exist, display an error message */}
+            <ErrorDiv>{ doesNotExistMessage }</ErrorDiv>
+            {/* At end of game, display a win or lose message */}
             { gameOver && gameResult == "won" && <GameResult result="won" word={word} Retry={Retry}/> }
             { gameOver && gameResult == "lost" && <GameResult result="lost" word={word} Retry={Retry}/> }
         </MainDiv>
