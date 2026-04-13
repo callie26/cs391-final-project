@@ -198,7 +198,6 @@ function App() {
 
     return (
         <MainDiv>
-            <h1>Wordle</h1>
             <NavBar/>
                         <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors}/>
                         <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress}/>
