@@ -3,7 +3,7 @@
 // Description: The file used to define the logic of the wordle game.
 
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import Grid from './components/Grid'
 import Keyboard from "./components/Keyboard.tsx";
@@ -19,23 +19,34 @@ const MainDiv = styled.div`
   padding: 8px 10px;
 `;
 function App() {
-    const word = "";
+    const rows = 6;
+    const columns = 5;
 
     // Tiffany Yam
     // Conditionals for GameResult component
     const [gameOver, setGameOver] = useState(false);
     const [gameResult, setGameResult] = useState("");
 
+    // Callie Liu
+    // states for keyboard color change
+    const [answer, setAnswer] = useState("");
+    const [keyboardColors, setKeyboardColors] = useState<GuessColorsProps[]>([]);
+    const [guesses, setGuesses] = useState<string[][]>(
+        Array.from({ length: rows }, () => Array(columns).fill(""))
+    );
+    const [currentRow, setCurrentRow] = useState(0);
+    const [currentCol, setCurrentCol] = useState(0);
+
+    const word = answer;
+
     const Retry = () => {
         setGameOver(false);
         setGameResult("");
+        setKeyboardColors([]);
+        setGuesses(Array.from({ length: rows }, () => Array(columns).fill("")));
+        setCurrentRow(0);
+        setCurrentCol(0);
     }
-
-    // Callie Liu
-    // states for keyboard color change
-    const [currentGuess, setCurrentGuess] = useState("");
-    const [answer, setAnswer] = useState("");
-    const [keyboardColors, setKeyboardColors] = useState<GuessColorsProps[]>([]);
 
     // fetch a random 5-letter word from the API
     useEffect(()=>{
@@ -71,6 +82,9 @@ function App() {
                 const indexOfCorrectSpot = remainingLetters.indexOf(guess[i]);
                 remainingLetters[indexOfCorrectSpot] = "*"
             }
+            else {
+                guessColors[i] = {letter: guess[i], color: "gray"};
+            }
         }
 
         return guessColors;
@@ -80,35 +94,103 @@ function App() {
 
     // check whether to update the keyboard key colors
     function updateKeyboardColors(guessColors:GuessColorsProps[]){
-        // get current keyboard colors and update or add colors if needed
-        const updatedKeyboardColors:GuessColorsProps[] = [...keyboardColors];
+        const colorPriority = { gray: 0, yellow: 1, green: 2 };
 
-        // loop through each guess color
-        // https://www.w3schools.com/jsref/jsref_foreach.asp
-        guessColors.forEach((guessColor: GuessColorsProps)=> {
+        setKeyboardColors((previousColors) => {
+            const updatedKeyboardColors:GuessColorsProps[] = [...previousColors];
 
-            // see if there is already existing color for the guess letter
-            // https://stackoverflow.com/questions/67476440/how-to-match-key-value-in-array-of-objects
-            const existingColor = updatedKeyboardColors.find(updatedKeyboardColor => updatedKeyboardColor.letter === guessColor.letter)
+            guessColors.forEach((guessColor: GuessColorsProps)=> {
+                const existingColor = updatedKeyboardColors.find(
+                    (updatedKeyboardColor) => updatedKeyboardColor.letter === guessColor.letter
+                );
 
-            // if there is already existing color then only update if guess color has higher precedence
-            if (existingColor) {
-                if ((guessColor.color === "green") || (existingColor.color !== "green" && guessColor.color === "yellow")) {
-                    existingColor.color = guessColor.color
-                }
-            }
-            // else it is the first time adding a color to this letter so add it to the array
-            else {
-                if (guessColor.color === "green" || guessColor.color === "yellow") {
-                    // https://www.w3schools.com/jsref/jsref_push.asp
+                if (existingColor) {
+                    if (colorPriority[guessColor.color] > colorPriority[existingColor.color]) {
+                        existingColor.color = guessColor.color;
+                    }
+                } else {
                     updatedKeyboardColors.push(guessColor);
                 }
-            }
+            });
+
+            return updatedKeyboardColors;
         });
-        setKeyboardColors(updatedKeyboardColors)
     }
 
-    // const keyboardColors = updateKeyboardColors(guessColors)
+    // samantha pang 
+    // function to handle key presses from both real keyboard and on-screen keyboard
+    const handleKeyPress = useCallback((key: string) => {
+        if (gameOver) return;
+
+        // if backspace is pressed, delete the last letter in the current guess
+        if (key === "BACKSPACE") {
+            if (currentCol === 0) return;
+
+            const nextGuesses = guesses.map((row) => [...row]);
+            nextGuesses[currentRow][currentCol - 1] = "";
+            setGuesses(nextGuesses);
+            setCurrentCol((previous) => previous - 1);
+            return;
+        }
+
+        // if enter is pressed, check the guess and move to the next row
+        if (key === "ENTER") {
+            if (currentCol < columns || !answer) return;
+
+            const guess = guesses[currentRow].join("");
+            const guessColors = getGuessColors(guess, answer);
+            updateKeyboardColors(guessColors);
+
+            if (guess === answer) {
+                setGameOver(true);
+                setGameResult("won");
+                return;
+            }
+
+            if (currentRow === rows - 1) {
+                setGameOver(true);
+                setGameResult("lost");
+                return;
+            }
+
+            setCurrentRow((previous) => previous + 1);
+            setCurrentCol(0);
+            return;
+        }
+
+        // if a letter key is pressed, add the letter to the current guess
+        if (/^[A-Z]$/.test(key) && currentCol < columns) {
+            const nextGuesses = guesses.map((row) => [...row]);
+            nextGuesses[currentRow][currentCol] = key;
+            setGuesses(nextGuesses);
+            setCurrentCol((previous) => previous + 1);
+        }
+    }, [gameOver, currentCol, currentRow, guesses, columns, answer, rows]);
+
+    useEffect(() => {
+        function handlePhysicalKeyDown(event: KeyboardEvent) {
+            const pressedKey = event.key.toUpperCase();
+
+            if (event.key === "Backspace") {
+                event.preventDefault();
+                handleKeyPress("BACKSPACE");
+                return;
+            }
+
+            if (event.key === "Enter") {
+                event.preventDefault();
+                handleKeyPress("ENTER");
+                return;
+            }
+
+            if (/^[A-Z]$/.test(pressedKey)) {
+                handleKeyPress(pressedKey);
+            }
+        }
+
+        window.addEventListener("keydown", handlePhysicalKeyDown);
+        return () => window.removeEventListener("keydown", handlePhysicalKeyDown);
+    }, [handleKeyPress]);
 
 
 
@@ -116,12 +198,12 @@ function App() {
         <MainDiv>
             <h1>Wordle</h1>
             <NavBar/>
-            <Grid/>
-            <Keyboard colors={keyboardColors}/>
+                        <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow}/>
+                        <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress}/>
             { gameOver && gameResult == "won" && <GameResult result="won" word={word} Retry={Retry}/> }
             { gameOver && gameResult == "lost" && <GameResult result="lost" word={word} Retry={Retry}/> }
         </MainDiv>
-  )
+    )
 }
 
 export default App

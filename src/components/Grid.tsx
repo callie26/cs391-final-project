@@ -7,15 +7,24 @@ const GridDiv = styled.div`
     gap: 8px;
 `;
 
-export default function Grid() {
+type GridProps = {
+  guesses: string[][];
+  rows: number;
+  columns: number;
+  currentRow: number;
+};
+
+export default function Grid({ guesses, rows, columns, currentRow }: GridProps) {
   return (
     <GridDiv>
-        <Row/>
-        <Row/>
-        <Row/>
-        <Row/>
-        <Row/>
-        <Row/>
+    {Array.from({ length: rows }, (_, rowIndex) => (
+      <Row
+        key={rowIndex}
+        letters={guesses[rowIndex] ?? []}
+        columns={columns}
+        isActiveRow={rowIndex === currentRow}
+      />
+    ))}
     </GridDiv>
   )
 }

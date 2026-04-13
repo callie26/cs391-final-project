@@ -47,13 +47,13 @@ const StyledWideButton = styled.button<{color:string | undefined}>`
     }
 `;
 
-export default function KeyButton(props: {letter: string, color: string | undefined}) {
+export default function KeyButton(props: {letter: string, color: string | undefined, onClick: (key: string) => void}) {
     return (
         // if the letter of the key is ENTER or BACKSPACE
         props.letter === "ENTER" || props.letter === "BACKSPACE" ?
             // display button as a wide button
-            <StyledWideButton color={props.color}> {props.letter} </StyledWideButton>:
+            <StyledWideButton type="button" color={props.color} onClick={() => props.onClick(props.letter)}> {props.letter} </StyledWideButton>:
             // else display as regular button
-            <StyledButton color={props.color}> {props.letter} </StyledButton>
+            <StyledButton type="button" color={props.color} onClick={() => props.onClick(props.letter)}> {props.letter} </StyledButton>
     );
 }

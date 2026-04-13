@@ -6,14 +6,22 @@ const RowDiv = styled.div`
     gap: 8px;
 `;
 
-export default function Row() {
+type RowProps = {
+  letters: string[];
+  columns: number;
+  isActiveRow: boolean;
+};
+
+export default function Row({ letters, columns, isActiveRow }: RowProps) {
   return (
     <RowDiv>
-        <Cell/>
-        <Cell/>
-        <Cell/>
-        <Cell/>
-        <Cell/>
+    {Array.from({ length: columns }, (_, index) => (
+      <Cell
+        key={index}
+        value={letters[index] ?? ""}
+        isActive={isActiveRow}
+      />
+    ))}
     </RowDiv>
   )
 }

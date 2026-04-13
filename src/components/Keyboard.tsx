@@ -18,7 +18,7 @@ const topKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
 const middleKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
 const bottomKeys = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'];
 
-export default function Keyboard(props: {colors: GuessColorsProps[]}) {
+export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress: (key: string) => void}) {
     return (
         <StyledKeyboardContainer>
 
@@ -28,8 +28,10 @@ export default function Keyboard(props: {colors: GuessColorsProps[]}) {
                     // used optional chaining in case undefined is thrown
                     // https://stackoverflow.com/questions/54884488/how-can-i-solve-the-error-ts2532-object-is-possibly-undefined
                     <KeyButton
+                        key={letter}
                         letter={letter}
-                        color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter)?.color}
+                        color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter === letter)?.color}
+                        onClick={props.onKeyPress}
                     />
                 )}
             </div>
@@ -38,8 +40,10 @@ export default function Keyboard(props: {colors: GuessColorsProps[]}) {
             <div>
                 {middleKeys.map((letter) =>
                     <KeyButton
+                        key={letter}
                         letter={letter}
-                        color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter)?.color}
+                        color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter === letter)?.color}
+                        onClick={props.onKeyPress}
                     />
                 )}
             </div>
@@ -48,8 +52,10 @@ export default function Keyboard(props: {colors: GuessColorsProps[]}) {
             <div>
                 {bottomKeys.map((letter) =>
                     <KeyButton
+                        key={letter}
                         letter={letter}
-                        color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter)?.color}
+                        color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter === letter)?.color}
+                        onClick={props.onKeyPress}
                     />
                 )}
             </div>
