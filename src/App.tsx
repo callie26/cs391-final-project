@@ -68,7 +68,7 @@ function App() {
         console.log("ANSWER:", answer);
         console.log("GUESS:", guess);
 
-        const guessColors:GuessColorsProps[] = new Array(guess.length);
+        const guessColors:GuessColorsProps[] = [];
         // make string into array for easy manipulation
         // https://www.geeksforgeeks.org/javascript/string-to-array-in-javascript/
         const remainingLetters = answer.split("");
