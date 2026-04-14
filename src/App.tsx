@@ -178,6 +178,7 @@ function App() {
                     setDoesNotExistMessage("");
 
                     const guessColors = getGuessColors(guess, answer);
+                    setGridColors((previousColors) => [...previousColors, getGuessColors(guess, answer)])
                     updateKeyboardColors(guessColors);
 
                     if (guess === answer) {
@@ -192,7 +193,6 @@ function App() {
                         return;
                     }
 
-                    setGridColors((previousColors) => [...previousColors, guessColors])
                     setCurrentRow((previous) => previous + 1);
                     setCurrentCol(0);
                     return;
