@@ -56,6 +56,7 @@ function App() {
         setGuesses(Array.from({ length: rows }, () => Array(columns).fill("")));
         setCurrentRow(0);
         setCurrentCol(0);
+        setGridColors([]);
     }
 
     // fetch a random 5-letter word from the API
@@ -91,14 +92,21 @@ function App() {
         }
 
         console.log("rm" + remainingLetters);
-            // check for letters not in correct spot but in word
-            // use indexOf to check if there is an index with that letter
-            // https://www.w3schools.com/jsref/jsref_indexof_array.asp
+
+        // check for letters not already green and not in correct spot but is in word, otherwise make it gray
+        // use indexOf to check if there is an index with that letter
+        // https://www.w3schools.com/jsref/jsref_indexof_array.asp
         for (let i = 0; i < guess.length; i++) {
+
+            // check if it is already green first
+            if (guessColors[i]) continue;
+
             const indexOfCorrectSpot = remainingLetters.indexOf(guess[i]);
             if (indexOfCorrectSpot !== -1) {
                 guessColors[i] = {letter: guess[i], color: "yellow"};
                 remainingLetters[indexOfCorrectSpot] = "*"
+            } else {
+                guessColors[i] = {letter: guess[i], color: "gray"};
             }
         }
         console.log("rm" + remainingLetters);
