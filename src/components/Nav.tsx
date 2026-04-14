@@ -1,24 +1,38 @@
 //Author Johnny Li//
-import {useState} from "react";
+"use client";
 import styled from "styled-components";
 
-const Navbar = styled.div`
+const Navbar = styled.div<{ $mode: string }>`
     width: 100%;
     display: flex;
     justify-content: center;
     position: relative;
     padding: 10px;
+    background-color: ${(props) => {
+        if (props.$mode === "light") {
+            return "white";
+        } else {
+            return "black";
+        }
+    }};
+    color: ${(props) => {
+        if (props.$mode === "light") {
+            return "black";
+        } else {
+            return "white";
+        }
+    }};
 `;
 
-const NavContainer =  styled.div`
+const NavContainer = styled.div`
     display: flex;
     gap: 15px;
-    
-    #Navtitle{
-        margin: 0
+
+    #Navtitle {
+        margin: 0;
     }
-    
-    #lightdarkbutton{
+
+    #lightdarkbutton {
         position: absolute;
         right: 20px;
         top: 50%;
@@ -27,23 +41,21 @@ const NavContainer =  styled.div`
     }
 `;
 
+type NavBarProps = {
+    mode: string;
+    setLightDark: () => void;
+};
 
+export default function NavBar({ mode, setLightDark }: NavBarProps) {
 
-export default function Nav() { //currently passing in nothing just having a navbar
-
-    const[mode, setMode] = useState("light")
-
-    function setLightDark() {
-        setMode(mode === "light" ? "dark" : "light");
-    }
     return (
-        <Navbar>
+        <Navbar $mode={mode}>
             <NavContainer>
                 <h1 id="Navtitle">Wordle</h1>
-                <button id = "lightdarkbutton" onClick={setLightDark}>Light/Dark</button>
+                <button id="lightdarkbutton" onClick={setLightDark}>
+                    Light/Dark
+                </button>
             </NavContainer>
         </Navbar>
-
-    )
+    );
 }
-

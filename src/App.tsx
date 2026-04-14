@@ -1,7 +1,6 @@
 // File: final-project/src/App.tsx
 // Author: Tiffany Yam (tiffyam@bu.edu), Callie Liu (callie26@bu.edu) 4/5/2026
 // Description: The file used to define the logic of the wordle game.
-
 import styled from "styled-components";
 import { useState, useEffect, useCallback } from "react";
 
@@ -11,12 +10,27 @@ import GameResult from "./components/GameResult";
 import NavBar from "./components/Nav";
 import type {GuessColorsProps} from "./types/GuessColorsProps.ts";
 
-const MainDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
+const MainDiv = styled.div<{$mode: string}>`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    min-height: 100vh;
+    background-color: ${(props) => {
+        if (props.$mode === "light") {
+            return "white";
+        } else {
+            return "black";
+        }
+    }};
+    color: ${(props) => {
+        if (props.$mode === "light") {
+            return "black";
+        } else {
+            return "white";
+        }
+    }};
 `;
 
 const ErrorDiv = styled.div `
@@ -242,11 +256,21 @@ function App() {
         return () => window.removeEventListener("keydown", handlePhysicalKeyDown);
     }, [handleKeyPress]);
 
-
+    const [mode, setMode] = useState("light");
+    function setLightDark(){
+        setMode((previous) => {
+            if(previous == "light"){
+                return "dark";
+            }
+            else{
+                return "light";
+            }
+        });
+    }
 
     return (
-        <MainDiv>
-            <NavBar/>
+        <MainDiv $mode={mode}>
+            <NavBar mode={mode} setLightDark={setLightDark} />
                         <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors}/>
                         <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress}/>
             {/* If word does not exist, display an error message */}
