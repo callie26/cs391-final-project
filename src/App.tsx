@@ -1,5 +1,4 @@
 // File: final-project/src/App.tsx
-// Author: Tiffany Yam (tiffyam@bu.edu), Callie Liu (callie26@bu.edu) 4/5/2026
 // Description: The file used to define the logic of the wordle game.
 import styled from "styled-components";
 import { useState, useEffect, useCallback } from "react";
@@ -34,8 +33,9 @@ const MainDiv = styled.div<{$mode: string}>`
 `;
 
 const ErrorDiv = styled.div `
+    font-family: "Consolas", "sans-serif";
     color: red;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
 `;
 
@@ -43,7 +43,7 @@ function App() {
     const rows = 6;
     const columns = 5;
 
-    // Tiffany Yam
+    // Tiffany
     // Conditionals for GameResult component
     const [gameOver, setGameOver] = useState(false);
     const [gameResult, setGameResult] = useState("");
@@ -63,6 +63,7 @@ function App() {
 
     const word = answer;
 
+    // Samantha
     const Retry = () => {
         setGameOver(false);
         setGameResult("");
@@ -71,14 +72,20 @@ function App() {
         setCurrentRow(0);
         setCurrentCol(0);
         setGridColors([]);
+        window.location.reload();
     }
 
+    // Callie
     // fetch a random 5-letter word from the API
     useEffect(()=>{
         async function fetchRandomWord(): Promise<void> {
-            const rawRandomWord= await fetch("https://random-words-api.kushcreates.com/api?language=en&length=5&type=uppercase&words=1");
+            // const rawRandomWord= await fetch("https://random-words-api.kushcreates.com/api?language=en&length=5&type=uppercase&words=1");
+            // const randomWord = await rawRandomWord.json();
+            // setAnswer(randomWord[0].word);
+
+            const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5&diff=1");
             const randomWord = await rawRandomWord.json();
-            setAnswer(randomWord[0].word);
+            setAnswer(randomWord[0].toUpperCase());
         }
         fetchRandomWord()
             .then(()=>console.log("Random word successfully fetched"))
@@ -87,7 +94,8 @@ function App() {
 
     console.log(word);
 
-    // check a guess against the answer (need to put this in when enter is hit i think)
+    // Callie
+    // check a guess against the answer
     function getGuessColors(guess:string, answer:string):GuessColorsProps[]{
         console.log("ANSWER:", answer);
         console.log("GUESS:", guess);
@@ -107,6 +115,7 @@ function App() {
 
         console.log("rm" + remainingLetters);
 
+        // Callie
         // check for letters not already green and not in correct spot but is in word, otherwise make it gray
         // use indexOf to check if there is an index with that letter
         // https://www.w3schools.com/jsref/jsref_indexof_array.asp
@@ -131,6 +140,7 @@ function App() {
 
     // guessColors = getGuessColors(guess, answer)
 
+    // Samantha
     // check whether to update the keyboard key colors
     function updateKeyboardColors(guessColors:GuessColorsProps[]){
         const colorPriority = { gray: 0, yellow: 1, green: 2 };
@@ -156,12 +166,18 @@ function App() {
         });
     }
 
-    // Tiffany Yam
+    // Tiffany
     // Check if word exists
-    function isRealWord(word: string) {
-        return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-            .then(res => res.ok)
-            .catch(() => false);
+    // async function isRealWord(word: string) {
+    //     return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    //         .then(res => res.ok)
+    //         .catch(() => false);
+    // }
+
+    async function isRealWord(word: string) {
+        const res = await fetch (`https://freedictionaryapi.com/api/v1/entries/en/${word.toLowerCase()}`);
+        const resjson = await res.json();
+        return resjson.entries.length > 0;
     }
 
     // samantha pang
@@ -231,6 +247,7 @@ function App() {
         }
     }, [gameOver, currentCol, currentRow, guesses, columns, answer, rows]);
 
+    // Samantha
     useEffect(() => {
         function handlePhysicalKeyDown(event: KeyboardEvent) {
             const pressedKey = event.key.toUpperCase();
@@ -256,6 +273,7 @@ function App() {
         return () => window.removeEventListener("keydown", handlePhysicalKeyDown);
     }, [handleKeyPress]);
 
+    // Johnny
     const [mode, setMode] = useState("light");
     function setLightDark(){
         setMode((previous) => {
