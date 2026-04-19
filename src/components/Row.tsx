@@ -4,7 +4,12 @@ import type {RowProps} from "../types/RowProps.ts";
 
 const RowDiv = styled.div`
     display: flex;
+  justify-content: center;
     gap: 8px;
+
+  @media (max-width: 520px) {
+    gap: 6px;
+  }
 `;
 
 export default function Row({ letters, columns, isActiveRow, rowColors }: RowProps) {

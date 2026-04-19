@@ -11,6 +11,12 @@ const StyledKeyboardContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 6px;
+`;
+
+const KeyRow = styled.div`
+    display: flex;
+    justify-content: center;
 `;
 
 // variables to represent each row of the keyboard
@@ -23,7 +29,7 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
         <StyledKeyboardContainer>
 
              {/*map through every top row key to display the top row of keys of a keyboard */}
-            <div>
+            <KeyRow>
                 {topKeys.map((letter) =>
                     // used optional chaining in case undefined is thrown
                     // https://stackoverflow.com/questions/54884488/how-can-i-solve-the-error-ts2532-object-is-possibly-undefined
@@ -34,10 +40,10 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
                         onClick={props.onKeyPress}
                     />
                 )}
-            </div>
+            </KeyRow>
 
             {/* map through every middle row key to display the middle row of keys of a keyboard */}
-            <div>
+            <KeyRow>
                 {middleKeys.map((letter) =>
                     <KeyButton
                         key={letter}
@@ -46,10 +52,10 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
                         onClick={props.onKeyPress}
                     />
                 )}
-            </div>
+            </KeyRow>
 
             {/* map through every bottom row key to display the bottom row of keys of a keyboard */}
-            <div>
+            <KeyRow>
                 {bottomKeys.map((letter) =>
                     <KeyButton
                         key={letter}
@@ -58,7 +64,7 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
                         onClick={props.onKeyPress}
                     />
                 )}
-            </div>
+            </KeyRow>
 
         </StyledKeyboardContainer>
     );

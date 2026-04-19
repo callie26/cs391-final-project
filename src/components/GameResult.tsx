@@ -3,45 +3,67 @@
 import styled from "styled-components";
 import type { GameResultProps } from "../types/GameResultProps.ts";
 
+const Overlay = styled.div`
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(2, 6, 23, 0.55);
+    backdrop-filter: blur(3px);
+    display:flex ; 
+    justify-content: center;
+    align-items: center;
+
+`;
+
 const StyledContainer = styled.div `
-    font-size: 25px;
-    font-family: "Consolas", "sans-serif";
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 10px;
     text-align: center;
+    padding: 26px;
+    border-radius: 14px;
+    background: gray;
+    color: #e2e8f0;
 `;
 
 const StyledButton = styled.button `
-    font-family: "Consolas", "sans-serif";
-    margin: 10px auto;
-    padding: 5px 10px;
-    font-size: 20px;
-    background-color: lightgray;
-    border: 2px solid gray;
-    border-radius: 5px;
-
-    &:hover {
-        background-color: #7a7878;
-    }
+    margin: 10px auto 0;
+    padding: 10px 16px;
+    font-size: 18px;
+    background: green;
+    border-radius: 8px;
+    cursor: pointer;
 `;
 
-const WinMessage = styled.p `
-    color: green;
+const Heading = styled.h2`
+    margin: 0;
+    font-size: 32px;
 `;
 
-const LoseMessage = styled.p `
-    color: red;
+const Message = styled.p<{ $loss?: boolean }>`
+    margin: 0;
+    font-size: 18px;
+    color: ${(props) => props.$loss ? "#fecaca" : "#bbf7d0"};
 `;
+
+
 
 export default function GameResult({ result, word, Retry } : GameResultProps) {
     return (
-        <StyledContainer>
-            {/* If result is won, display "won" message */}
-            { result === "won" && <WinMessage>You won!</WinMessage> }
-            {/* If result is won, display "lost" message and show correct word */}
-            { result === "lost" && <LoseMessage>You lost! The word was "{word}"!</LoseMessage> }
-            {/* Replay button */}
-            <StyledButton onClick={Retry}>Play Again</StyledButton>
-        </StyledContainer>
+        <Overlay>
+            <StyledContainer>
+                {/* If result is won, display "won" message */}
+                { result === "won" && <Heading>You Won</Heading> }
+                {/* If result is lost, display "lost" message and show correct word */}
+                { result === "lost" && <Heading>Round Over</Heading> }
+
+                { result === "won" && <Message>Want to play again?</Message> }
+                { result === "lost" && <Message $loss>The word was {word}</Message> }
+
+                {/* Replay button */}
+                <StyledButton onClick={Retry}>Play Again</StyledButton>
+            </StyledContainer>
+        </Overlay>
     );
 }

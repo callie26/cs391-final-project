@@ -6,6 +6,7 @@ const GridDiv = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+  margin-top: 2px;
 `;
 
 export default function Grid({ guesses, rows, columns, currentRow, gridColors }: GridProps) {
