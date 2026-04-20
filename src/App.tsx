@@ -89,9 +89,12 @@ function App() {
     // Callie
     // fetch a random 5-letter word from the API
     useEffect(()=>{
-        fetchRandomWord()
-            .then(()=>console.log("Random word successfully fetched"))
-            .catch((e: Error)=>console.log("There was an error fetching the random word: " + e));
+        async function loadWord() {
+            await fetchRandomWord()
+        }
+        loadWord()
+            .then(() => console.log("Random word successfully fetched"))
+            .catch((e: Error) => console.log("There was an error fetching the random word: " + e));
     }, [fetchRandomWord]);
 
     console.log(word);
@@ -99,8 +102,8 @@ function App() {
     // Callie
     // check a guess against the answer
     function getGuessColors(guess:string, answer:string):GuessColorsProps[]{
-        console.log("ANSWER:", answer);
-        console.log("GUESS:", guess);
+        // console.log("ANSWER:", answer);
+        // console.log("GUESS:", guess);
 
         const guessColors:GuessColorsProps[] = [];
         // make string into array for easy manipulation
@@ -115,7 +118,7 @@ function App() {
             }
         }
 
-        console.log("rm" + remainingLetters);
+        // console.log("rm" + remainingLetters);
 
         // Callie
         // check for letters not already green and not in correct spot but is in word, otherwise make it gray
@@ -134,8 +137,8 @@ function App() {
                 guessColors[i] = {letter: guess[i], color: "gray"};
             }
         }
-        console.log("rm" + remainingLetters);
-        console.log(guessColors);
+        // console.log("rm" + remainingLetters);
+        // console.log(guessColors);
 
         return guessColors;
     }
@@ -178,8 +181,8 @@ function App() {
 
     async function isRealWord(word: string) {
         const res = await fetch (`https://freedictionaryapi.com/api/v1/entries/en/${word.toLowerCase()}`);
-        const resjson = await res.json();
-        return resjson.entries.length > 0;
+        const resJson = await res.json();
+        return resJson.entries.length > 0;
     }
 
     // samantha pang
