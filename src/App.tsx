@@ -75,6 +75,7 @@ function App() {
 
     // Samantha
     const Retry = () => {
+        setAnswer("");
         setGameOver(false);
         setGameResult("");
         setDoesNotExistMessage("");
@@ -102,8 +103,8 @@ function App() {
     // Callie
     // check a guess against the answer
     function getGuessColors(guess:string, answer:string):GuessColorsProps[]{
-        // console.log("ANSWER:", answer);
-        // console.log("GUESS:", guess);
+        console.log("ANSWER:", answer);
+        console.log("GUESS:", guess);
 
         const guessColors:GuessColorsProps[] = [];
         // make string into array for easy manipulation
