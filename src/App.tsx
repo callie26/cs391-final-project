@@ -71,17 +71,22 @@ function App() {
         // const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5&diff=1");
         // const randomWord = await rawRandomWord.json();
         // setAnswer(randomWord[0].toUpperCase());
-
-        // Keep this in case it goes down again
+        
         // const rawRandomWord = await fetch("https://random-words-api.kushcreates.com/api?language=en&category=wordle&length=5&type=uppercase&words=1");
         // const randomWord = await rawRandomWord.json();
         // setAnswer(randomWord[0].word);
 
-        const rawRandomWord = await fetch("https://api.datamuse.com/words?sp=?????");
+        // const rawRandomWord = await fetch("https://api.datamuse.com/words?sp=?????");
+        // const randomWord = await rawRandomWord.json();
+        // // https://www.w3schools.com/js/js_random.asp
+        // const randomIndex = Math.floor(Math.random() * randomWord.length);
+        // setAnswer(randomWord[randomIndex].word.toUpperCase());
+
+        const rawRandomWord = await fetch("https://darkermango.github.io/5-Letter-words/words.json");
         const randomWord = await rawRandomWord.json();
         // https://www.w3schools.com/js/js_random.asp
-        const randomIndex = Math.floor(Math.random() * randomWord.length);
-        setAnswer(randomWord[randomIndex].word.toUpperCase());
+        const randomIndex = Math.floor(Math.random() * randomWord.words.length);
+        setAnswer(randomWord.words[randomIndex].toUpperCase());
     }, []);
 
     // Samantha
