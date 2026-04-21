@@ -68,14 +68,20 @@ function App() {
     const word = answer;
 
     const fetchRandomWord = useCallback(async (): Promise<void> => {
-        const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5&diff=1");
-        const randomWord = await rawRandomWord.json();
-        setAnswer(randomWord[0].toUpperCase());
+        // const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5&diff=1");
+        // const randomWord = await rawRandomWord.json();
+        // setAnswer(randomWord[0].toUpperCase());
 
         // Keep this in case it goes down again
         // const rawRandomWord = await fetch("https://random-words-api.kushcreates.com/api?language=en&category=wordle&length=5&type=uppercase&words=1");
         // const randomWord = await rawRandomWord.json();
         // setAnswer(randomWord[0].word);
+
+        const rawRandomWord = await fetch("https://api.datamuse.com/words?sp=?????");
+        const randomWord = await rawRandomWord.json();
+        // https://www.w3schools.com/js/js_random.asp
+        const randomIndex = Math.floor(Math.random() * randomWord.length);
+        setAnswer(randomWord[randomIndex].word.toUpperCase());
     }, []);
 
     // Samantha
