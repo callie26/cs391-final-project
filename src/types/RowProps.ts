@@ -5,4 +5,5 @@ export type RowProps = {
     columns: number;
     isActiveRow: boolean;
     rowColors: GuessColorsProps[];
+    mode: string;
 };

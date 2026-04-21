@@ -6,4 +6,5 @@ export type GridProps = {
     columns: number;
     currentRow: number;
     gridColors: GuessColorsProps[][];
+    mode: string;
 };

@@ -12,7 +12,7 @@ const RowDiv = styled.div`
   }
 `;
 
-export default function Row({ letters, columns, isActiveRow, rowColors }: RowProps) {
+export default function Row({ letters, columns, isActiveRow, rowColors, mode }: RowProps) {
   return (
     <RowDiv>
     {Array.from({ length: columns }, (_, index) => (
@@ -23,6 +23,7 @@ export default function Row({ letters, columns, isActiveRow, rowColors }: RowPro
         // used optional chaining in case undefined is thrown for undefined color
         // https://stackoverflow.com/questions/54884488/how-can-i-solve-the-error-ts2532-object-is-possibly-undefined
         cellColor={rowColors[index]?.color}
+        mode={mode}
       />
     ))}
     </RowDiv>

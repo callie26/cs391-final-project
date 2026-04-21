@@ -12,21 +12,21 @@ const Navbar = styled.div<{ $mode: string }>`
     position: relative;
     padding: 10px 12px;
     border-radius: 12px;
-    background-color: ${(props) => {
-        if (props.$mode === "light") {
-            return "white";
-        } else {
-            return "black";
-        }
-    }};
-    color: ${(props) => {
-        if (props.$mode === "light") {
-            return "black";
-        } else {
-            return "white";
-        }
-    }};
-    border: 1px solid ${(props) => props.$mode === "light" ? "white" : "black"};
+        background-color: ${(props) => {
+            if (props.$mode === "light") {
+                return "white";
+            } else {
+                return "#222222";
+            }
+        }};
+        color: ${(props) => {
+            if (props.$mode === "light") {
+                return "#222222";
+            } else {
+                return "white";
+            }
+        }};
+        border: 1px solid ${(props) => props.$mode === "light" ? "white" : "black"};
 `;
 
 
@@ -62,8 +62,8 @@ const ToggleButton = styled.button<{ $mode: string }>`
     padding: 0 12px;
     border-radius: 8px;
     border: 1px solid ${(props) => props.$mode === "light" ? "#94a3b8" : "#475569"};
-    background-color: ${(props) => props.$mode === "light" ? "white" : "black"};
-    color: ${(props) => props.$mode === "light" ? "black" : "white"};
+    background-color: ${(props) => props.$mode === "light" ? "white" : "#222222"};
+    color: ${(props) => props.$mode === "light" ? "#222222" : "white"};
     cursor: pointer;
     font-weight: 700;
 
@@ -79,16 +79,8 @@ const ToggleButton = styled.button<{ $mode: string }>`
     }
 `;
 
-// used to display the navbar of the game, which contains the title and the toggle button for light/dark mode
-type NavBarProps = {
-    mode: string;
-    setLightDark: () => void;
-};
-
-
-// NavBar component that takes in the current mode (light or dark) and a function to toggle between light and dark mode, and displays the title of the game and the toggle button in the navbar
-export default function NavBar({ mode, setLightDark }: NavBarProps) {
-
+// NavBar component that takes in the current mode (light or dark) and a function to toggle between light and dark mode, and displays the title of the game
+export default function NavBar({ mode, setLightDark }: { mode: string; setLightDark: () => void}){
     return (
         <Navbar $mode={mode}>
             <NavContainer>

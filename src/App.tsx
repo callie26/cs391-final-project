@@ -20,12 +20,12 @@ const MainDiv = styled.div<{$mode: string}>`
         if (props.$mode === "light") {
             return "white";
         } else {
-            return "black";
+            return "#222222";
         }
     }};
     color: ${(props) => {
         if (props.$mode === "light") {
-            return "black";
+            return "#222222";
         } else {
             return "white";
         }

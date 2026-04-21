@@ -1,11 +1,25 @@
+"use client"
 import styled from "styled-components";
 import type {CellProps} from "../types/CellProps.ts";
 
-const CellDiv = styled.div<{ $isActive: boolean, color:string | undefined }>`
+const CellDiv = styled.div<{ $isActive: boolean, color:string|undefined, $mode:string}>`
     width: 60px;
     height: 60px;
-    border: 2px solid ${(props)=> props.$isActive ? "#94a3b8" : "#64748b"};
-    color: #1f2937;
+    border: 2px solid ${(props) => {
+        if (props.$mode === "dark") {
+            return "white";
+        } else {
+            return props.$isActive ? "#94a3b8" : "#64748b";
+        }
+    }};
+
+    color: ${(props) => {
+        if (props.$mode === "dark") {
+            return "white";
+        } else {
+            return "#1f2937";
+        }
+    }};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,7 +31,13 @@ const CellDiv = styled.div<{ $isActive: boolean, color:string | undefined }>`
         if (props.color === "green") return "#86efac"
         else if (props.color === "yellow") return "#fde047"
         else if (props.color === "gray") return "#cbd5e1"
-        else return "#f8fafc"
+        else {
+            if (props.$mode === "dark") {
+                return "black";
+            } else {
+                return "#f8fafc";
+            }
+        }
     }};
 
     @media (max-width: 520px) {
@@ -27,6 +47,6 @@ const CellDiv = styled.div<{ $isActive: boolean, color:string | undefined }>`
     }
 `;
 
-export default function Cell({ value, isActive, cellColor }: CellProps) {
-    return <CellDiv $isActive={isActive} color={cellColor}>{value}</CellDiv>
+export default function Cell({ value, isActive, cellColor, mode }: CellProps) {
+    return <CellDiv $isActive={isActive} color={cellColor} $mode={mode}>{value}</CellDiv>
 }
