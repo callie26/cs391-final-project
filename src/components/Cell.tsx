@@ -1,7 +1,10 @@
+// Author: Samantha Pang
+
 "use client"
 import styled from "styled-components";
 import type {CellProps} from "../types/CellProps.ts";
 
+// used to style the cell in the grid, which displays a letter and has a background color based on whether the letter is correct, present, or absent in the target word
 const CellDiv = styled.div<{ $isActive: boolean, color:string|undefined, $mode:string}>`
     width: 60px;
     height: 60px;
@@ -47,6 +50,7 @@ const CellDiv = styled.div<{ $isActive: boolean, color:string|undefined, $mode:s
     }
 `;
 
+// Cell component that takes in the letter to display, whether it is the active cell, the color of the cell, and the current mode (light or dark), and displays a cell with the appropriate styling based on whether it is the active cell and its color
 export default function Cell({ value, isActive, cellColor, mode }: CellProps) {
     return <CellDiv $isActive={isActive} color={cellColor} $mode={mode}>{value}</CellDiv>
 }
