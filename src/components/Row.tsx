@@ -1,7 +1,10 @@
+// Author: Samantha Pang
+
 import Cell from './Cell'
 import styled from "styled-components";
 import type {RowProps} from "../types/RowProps.ts";
 
+// used to style the row of cells in the grid
 const RowDiv = styled.div`
     display: flex;
   justify-content: center;

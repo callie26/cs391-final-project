@@ -151,19 +151,23 @@ function App() {
     function updateKeyboardColors(guessColors:GuessColorsProps[]){
         const colorPriority = { gray: 0, yellow: 1, green: 2 };
 
+        // update keyboard colors based on the guess colors, but only update if the new color has a higher priority than the existing color for that letter (green > yellow > gray > uncolored)
         setKeyboardColors((previousColors) => {
             const updatedKeyboardColors:GuessColorsProps[] = [...previousColors];
 
+            // loop through each guess color and update the corresponding keyboard color if the new color has a higher priority than the existing color
             guessColors.forEach((guessColor: GuessColorsProps)=> {
                 const existingColor = updatedKeyboardColors.find(
                     (updatedKeyboardColor) => updatedKeyboardColor.letter === guessColor.letter
                 );
 
+                // if there is an existing color for the letter, only update it if the new color has a higher priority than the existing color
                 if (existingColor) {
                     if (colorPriority[guessColor.color] > colorPriority[existingColor.color]) {
                         existingColor.color = guessColor.color;
                     }
                 } else {
+                    // if there is no existing color for the letter, add the new color to the keyboard colors
                     updatedKeyboardColors.push(guessColor);
                 }
             });
@@ -253,16 +257,19 @@ function App() {
         }
     }, [gameOver, currentCol, currentRow, guesses, columns, answer, rows]);
 
-    // Samantha
+    // Samantha Pang
     useEffect(() => {
         function handlePhysicalKeyDown(event: KeyboardEvent) {
             const pressedKey = event.key.toUpperCase();
 
+            // if backspace is pressed, delete the last letter in the current guess
             if (event.key === "Backspace") {
                 event.preventDefault();
                 handleKeyPress("BACKSPACE");
                 return;
             }
+
+            // if enter is pressed, check the guess and move to the next row
 
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -270,6 +277,7 @@ function App() {
                 return;
             }
 
+            // if a letter key is pressed, add the letter to the current guess
             if (/^[A-Z]$/.test(pressedKey)) {
                 handleKeyPress(pressedKey);
             }

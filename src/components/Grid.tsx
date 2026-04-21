@@ -1,3 +1,5 @@
+// Author: Samantha Pang
+
 import Row from './Row'
 import styled from "styled-components";
 import type {GridProps} from "../types/GridProps.ts";
