@@ -289,8 +289,8 @@ function App() {
         <MainDiv $mode={mode}>
             <NavBar mode={mode} setLightDark={setLightDark} />
 
-            <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors}/>
-            <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress}/>
+            <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors} mode={mode}/>
+            <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress} mode={mode}/>
             {/* If word does not exist, display an error message */}
             <ErrorDiv>{ doesNotExistMessage }</ErrorDiv>
 

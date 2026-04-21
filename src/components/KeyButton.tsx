@@ -6,19 +6,32 @@ import styled from "styled-components";
 
 // used to style each key button of the keyboard if not ENTER key or BACKSPACE
 // https://stackoverflow.com/questions/68683137/how-to-style-multiple-variations-of-a-button-with-styled-components
-const StyledButton = styled.button<{color:string | undefined}>`
+const StyledButton = styled.button<{color:string | undefined, $mode:string}>`
     background-color: ${(props)=> {
         if (props.color === "green") return "#16a34a"
         else if (props.color === "yellow") return "#eab308"
         else if (props.color === "gray") return "#64748b"
-        else return "#cbd5e1"
+        else {
+            if (props.$mode === "dark") {
+                return "#222222";
+            } else {
+                return "#cbd5e1"
+            }
+        }
     }};
-    color: ${(props)=> props.color ? "#f8fafc" : "#0f172a"};
+    color: ${(props) => {
+        if (props.color) {
+            return "#f8fafc";
+        } else {
+            return props.$mode === "dark" ? "white" : "#0f172a";
+        }
+    }};
+
     width: 46px;
     height: 54px;
     margin: 3px;
     border-radius: 8px;
-    border: none;
+    border: ${(props) => props.$mode === "dark" ? "1px solid white" : "none"};
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(15, 23, 42, 0.18);
@@ -40,19 +53,31 @@ const StyledButton = styled.button<{color:string | undefined}>`
 `;
 
 // used to style each key button of the keyboard when ENTER key or BACKSPACE
-const StyledWideButton = styled.button<{color:string | undefined}>`
+const StyledWideButton = styled.button<{color:string | undefined, $mode:string}>`
     background-color: ${(props)=> {
         if (props.color === "green") return "#16a34a"
         else if (props.color === "yellow") return "#eab308"
         else if (props.color === "gray") return "#64748b"
-        else return "#cbd5e1"
+        else {
+            if (props.$mode === "dark") {
+                return "#222222";
+            } else {
+                return "#cbd5e1";
+            }
+        }
     }};
-    color: ${(props)=> props.color ? "white" : "black"};
+    color: ${(props) => {
+        if (props.color) {
+            return "white";
+        } else {
+            return props.$mode === "dark" ? "white" : "black";
+        }
+    }};
     width: 102px;
     height: 54px;
     margin: 3px;
     border-radius: 8px;
-    border: none;
+    border: ${(props) => props.$mode === "dark" ? "1px solid white" : "none"};
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(15, 23, 42, 0.18);
@@ -74,13 +99,15 @@ const StyledWideButton = styled.button<{color:string | undefined}>`
 `;
 
 // KeyButton component that takes in the letter of the key, the color of the key, and a function to handle when the key is clicked, and displays a button for the key with the appropriate styling based on whether it is an ENTER or BACKSPACE key and its color
-export default function KeyButton(props: {letter: string, color: string | undefined, onClick: (key: string) => void}) {
+export default function KeyButton(props: {
+    mode: string;
+    letter: string, color: string | undefined, onClick: (key: string) => void}) {
     return (
         // if the letter of the key is ENTER or BACKSPACE
         props.letter === "ENTER" || props.letter === "BACKSPACE" ?
             // display button as a wide button
-            <StyledWideButton type="button" color={props.color} onClick={() => props.onClick(props.letter)}> {props.letter} </StyledWideButton>:
+            <StyledWideButton type="button" $mode={props.mode} color={props.color} onClick={() => props.onClick(props.letter)}> {props.letter} </StyledWideButton>:
             // else display as regular button
-            <StyledButton type="button" color={props.color} onClick={() => props.onClick(props.letter)}> {props.letter} </StyledButton>
+            <StyledButton type="button" $mode={props.mode} color={props.color} onClick={() => props.onClick(props.letter)}> {props.letter} </StyledButton>
     );
 }

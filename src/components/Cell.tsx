@@ -33,7 +33,7 @@ const CellDiv = styled.div<{ $isActive: boolean, color:string|undefined, $mode:s
         else if (props.color === "gray") return "#cbd5e1"
         else {
             if (props.$mode === "dark") {
-                return "black";
+                return "#222222";
             } else {
                 return "#f8fafc";
             }

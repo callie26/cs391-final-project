@@ -24,7 +24,7 @@ const topKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
 const middleKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
 const bottomKeys = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'];
 
-export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress: (key: string) => void}) {
+export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress: (key: string) => void, mode:string}) {
     return (
         <StyledKeyboardContainer>
 
@@ -38,6 +38,7 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
                         letter={letter}
                         color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter === letter)?.color}
                         onClick={props.onKeyPress}
+                        mode={props.mode}
                     />
                 )}
             </KeyRow>
@@ -50,6 +51,7 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
                         letter={letter}
                         color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter === letter)?.color}
                         onClick={props.onKeyPress}
+                        mode={props.mode}
                     />
                 )}
             </KeyRow>
@@ -62,6 +64,7 @@ export default function Keyboard(props: {colors: GuessColorsProps[], onKeyPress:
                         letter={letter}
                         color={props.colors.find((updatedKeyboardColor: GuessColorsProps) => updatedKeyboardColor.letter === letter)?.color}
                         onClick={props.onKeyPress}
+                        mode={props.mode}
                     />
                 )}
             </KeyRow>
