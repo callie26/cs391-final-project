@@ -16,6 +16,8 @@ const MainDiv = styled.div<{$mode: string}>`
     gap: 14px;
     padding: 12px 10px 18px;
     min-height: 100vh;
+    //Johnny
+    //checks if the current mode is light, if yes return white else return a black
     background: ${(props) => {
         if (props.$mode === "light") {
             return "white";
@@ -23,6 +25,7 @@ const MainDiv = styled.div<{$mode: string}>`
             return "#222222";
         }
     }};
+    //similar to background but viceversa
     color: ${(props) => {
         if (props.$mode === "light") {
             return "#222222";
@@ -298,7 +301,9 @@ function App() {
     }, [handleKeyPress]);
 
     // Johnny
+    //create a useState for mode and setMode for the light/dark feature
     const [mode, setMode] = useState("light");
+    //holds previous value of mode, if was light return dark and vice versa
     function setLightDark(){
         setMode((previous) => previous === "light" ? "dark" : "light");
     }

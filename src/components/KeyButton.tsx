@@ -19,6 +19,7 @@ const StyledButton = styled.button<{color:string | undefined, $mode:string}>`
             }
         }
     }};
+    //color will change depending on the current mode
     color: ${(props) => {
         if (props.color) {
             return "#f8fafc";

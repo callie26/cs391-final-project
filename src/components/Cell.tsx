@@ -8,6 +8,9 @@ import type {CellProps} from "../types/CellProps.ts";
 const CellDiv = styled.div<{ $isActive: boolean, color:string|undefined, $mode:string}>`
     width: 60px;
     height: 60px;
+    
+    //Johnny
+    //border color and color will change depending on the current mode 
     border: 2px solid ${(props) => {
         if (props.$mode === "dark") {
             return "white";
