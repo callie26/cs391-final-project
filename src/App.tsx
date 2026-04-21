@@ -68,9 +68,13 @@ function App() {
     const word = answer;
 
     const fetchRandomWord = useCallback(async (): Promise<void> => {
-        const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5&diff=1");
+        // const rawRandomWord= await fetch("https://random-word-api.herokuapp.com/word?length=5&diff=1");
+        // const randomWord = await rawRandomWord.json();
+        // setAnswer(randomWord[0].toUpperCase());
+
+        const rawRandomWord = await fetch("https://random-words-api.kushcreates.com/api?language=en&category=wordle&length=5&type=uppercase&words=1");
         const randomWord = await rawRandomWord.json();
-        setAnswer(randomWord[0].toUpperCase());
+        setAnswer(randomWord[0].word);
     }, []);
 
     // Samantha
@@ -178,12 +182,6 @@ function App() {
 
     // Tiffany
     // Check if word exists
-    // async function isRealWord(word: string) {
-    //     return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-    //         .then(res => res.ok)
-    //         .catch(() => false);
-    // }
-
     async function isRealWord(word: string) {
         const res = await fetch (`https://freedictionaryapi.com/api/v1/entries/en/${word.toLowerCase()}`);
         const resJson = await res.json();
@@ -245,7 +243,7 @@ function App() {
                     setCurrentCol(0);
                     return;
                 })
-                .catch(() => console.log("Error checking word"));
+                .catch((e) => console.log(e));
         }
 
         // if a letter key is pressed, add the letter to the current guess
