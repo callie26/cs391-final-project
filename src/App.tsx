@@ -1,5 +1,6 @@
 // File: final-project/src/App.tsx
 // Description: The file used to define the logic of the wordle game.
+
 import styled from "styled-components";
 import { useState, useEffect, useCallback } from "react";
 
@@ -25,7 +26,7 @@ const MainDiv = styled.div<{$mode: string}>`
             return "#222222";
         }
     }};
-    //similar to background but viceversa
+    //similar to background but vice versa
     color: ${(props) => {
         if (props.$mode === "light") {
             return "#222222";
@@ -314,6 +315,7 @@ function App() {
 
             <Grid guesses={guesses} rows={rows} columns={columns} currentRow={currentRow} gridColors={gridColors} mode={mode}/>
             <Keyboard colors={keyboardColors} onKeyPress={handleKeyPress} mode={mode}/>
+
             {/* If word does not exist, display an error message */}
             <ErrorDiv>{ doesNotExistMessage }</ErrorDiv>
 

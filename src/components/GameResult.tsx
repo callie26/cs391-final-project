@@ -3,16 +3,19 @@
 import styled from "styled-components";
 import type { GameResultProps } from "../types/GameResultProps.ts";
 
-const Overlay = styled.div`
+
+// Samantha
+const Overlay = styled.div `
     position: fixed;
     inset: 0;
+    // https://www.w3schools.com/cssref/pr_pos_z-index.php
     z-index: 100;
     background: rgba(2, 6, 23, 0.55);
+    // https://www.w3schools.com/cssref/css3_pr_backdrop-filter.php
     backdrop-filter: blur(3px);
-    display:flex ; 
+    display: flex; 
     justify-content: center;
     align-items: center;
-
 `;
 
 const StyledContainer = styled.div `
@@ -31,22 +34,21 @@ const StyledButton = styled.button `
     margin: 10px auto 0;
     padding: 10px 16px;
     font-size: 18px;
-    background: green;
+    background: #4bd34b;
     border-radius: 8px;
     cursor: pointer;
 `;
 
-const Heading = styled.h2`
+const StyledH2 = styled.h2 `
     margin: 0;
     font-size: 32px;
 `;
 
-const Message = styled.p<{ $loss?: boolean }>`
+const Message = styled.p<{ result: string }> `
     margin: 0;
     font-size: 18px;
-    color: ${(props) => props.$loss ? "#fecaca" : "#bbf7d0"};
+    color: ${(props) => props.result === "won" ? "#bbf7d0" : "#fecaca"};
 `;
-
 
 
 export default function GameResult({ result, word, Retry } : GameResultProps) {
@@ -54,12 +56,12 @@ export default function GameResult({ result, word, Retry } : GameResultProps) {
         <Overlay>
             <StyledContainer>
                 {/* If result is won, display "won" message */}
-                { result === "won" && <Heading>You Won</Heading> }
-                {/* If result is lost, display "lost" message and show correct word */}
-                { result === "lost" && <Heading>Round Over</Heading> }
+                { result === "won" && <StyledH2>You Won</StyledH2> }
+                { result === "won" && <Message result={"won"}>Want to play again?</Message> }
 
-                { result === "won" && <Message>Want to play again?</Message> }
-                { result === "lost" && <Message $loss>The word was {word}</Message> }
+                {/* If result is lost, display "lost" message and show correct word */}
+                { result === "lost" && <StyledH2>Round Over</StyledH2> }
+                { result === "lost" && <Message result={"lost"}>The word was {word}</Message> }
 
                 {/* Replay button */}
                 <StyledButton onClick={Retry}>Play Again</StyledButton>
